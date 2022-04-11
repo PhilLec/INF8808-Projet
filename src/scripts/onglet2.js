@@ -58,6 +58,7 @@ d3.csv("./TRIP_Part1.csv").then( function(data1) {
             dataPerMonth = transformDataMonths(data)
 
             setHistograms(data)
+            setStackedBar(data)
 
             build(d3.select('#tab-2-content'), dataPerMonth, dataPerPort)
         });
@@ -263,15 +264,15 @@ export function setHistogram(data, max, width, height, id, title) {
     svg.append("g")
         .call(d3.axisLeft(y).ticks(5));
 
-        svg.selectAll("rect")
-            .data(bins)
-            .enter()
-            .append("rect")
-                .attr("x", 1)
-                .attr("transform", d => { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-                .attr("width", d => { return x(d.x1) - x(d.x0); })
-                .attr("height", d => { return height - y(d.length) - 30; })
-                .style("fill", "#4479AB")
+    svg.selectAll("rect")
+        .data(bins)
+        .enter()
+        .append("rect")
+            .attr("x", 1)
+            .attr("transform", d => { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
+            .attr("width", d => { return x(d.x1) - x(d.x0); })
+            .attr("height", d => { return height - y(d.length) - 30; })
+            .style("fill", "#4479AB")
 }
 
 export function setHistograms(data) {
@@ -279,4 +280,55 @@ export function setHistograms(data) {
     setHistogram(data, 180, 776, 160, "#repartition-width", "Width")
     setHistogram(data, 650000, 776, 160, "#repartition-tonnage", "DeadWeight Tonnage");
     setHistogram(data, 30, 776, 160, "#repartition-draught", "Maximum Draugth");
+}
+
+export function setStackedBar(data) {
+    var svg = d3.select("#repartition-types")
+        .append("svg")
+            .attr("height", 556)
+            .attr("width", 130)
+            .append("g")
+                .attr("transform", "translate(10,10)");
+    
+    var total = 0
+    const map = new Map()
+    data.forEach(line => {
+        const type = line['Global Vessel Type']
+        const subtype = line['Vessel Type']
+        total++;
+
+        if (!map.has(type)) {
+            map.set(type, {
+                'type': type,
+                'number': 1,
+                'subtypes': {}
+            })
+        } else {
+            map.get(type).number += 1;
+        }
+            
+        if (!(subtype in map.get(type).subtypes)) {
+            map.get(type).subtypes[subtype] = 1;
+        } else {
+            map.get(type).subtypes[subtype] += 1;
+        }
+    })
+
+    const colors = {"Barges": "#66c2a5", "Excursion": "#fc8d62", "Fishing": "#8da0cb", "Merchant": "#e78ac3", "Other": "#a6d854", "Pleasure Crafts": "#ffd92f", "Tanker": "#e5c494", "Tugs": "#b3b3b3"}
+    const darker_colors = {"Barges": "#46b08f", "Excursion": "#d66236", "Fishing": "#748cc2", "Merchant": "#d96aae", "Other": "#8fbd44", "Pleasure Crafts": "#d6b313", "Tanker": "#cfa569", "Tugs": "#919191"}
+
+    var currSum = 10
+    for (var type of map.entries()) {
+        var i = 0
+        for (var subtype in type[1].subtypes) {
+            var color_list = i % 2 == 0 ? colors : darker_colors
+            i++
+            svg.append("rect")
+                .attr("width", 130)
+                .attr("height", (Math.ceil(490 * type[1].subtypes[subtype]/total)))
+                .attr("transform", "translate(10," + currSum + ")")
+                .attr("fill", color_list[type[0]]);
+            currSum += Math.ceil(490 * type[1].subtypes[subtype]/total);
+        }
+    }
 }

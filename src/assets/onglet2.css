@@ -1,6 +1,6 @@
 #tab-2-left {
     display: block;
-    padding: 29px;
+    padding: 10px;
     padding-right: 0;
     flex-basis: 0;
 }
@@ -8,7 +8,7 @@
 #tab-2-right {
     flex-grow: 1;
     flex-basis: 0;
-    padding: 29px;
+    padding: 10px;
     padding-left: 0;
     display: flex;
     flex-direction: column;
@@ -134,6 +134,8 @@ span#caracteristics-title-port {
 
 #discrete-caracteristics {
     flex-grow: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .discrete-repartition-container {
@@ -246,4 +248,23 @@ svg#time-select-graph {
 .resize path {
     fill: #eee;
     stroke: #666;
+}
+
+.tab-2-barchart-legend-item {
+    margin-left: 20px;
+}
+
+.tab-2-histogram-title {
+    text-align: center;
+}
+
+.tab-2-histogram-container {
+    border-bottom:#868686 solid 1px;
+    display: flex;
+    flex-direction: column;
+}
+
+#tab-2-last-histogram-container {
+    display: flex;
+    flex-direction: column;
 }

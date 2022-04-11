@@ -102,14 +102,58 @@
                             </div>
                             <div id="caracteristics-content">
                                 <div id="continuous-caracteristics">
-                                    <div class="continuous-repartition-container" id="repartition-length"></div>
-                                    <div class="continuous-repartition-container" id="repartition-width"></div>
-                                    <div class="continuous-repartition-container" id="repartition-tonnage"></div>
-                                    <div class="continuous-repartition-container" id="repartition-draught"></div>
+                                    <div class="tab-2-histogram-container">
+                                        <span class="tab-2-histogram-title">Longueur</span>
+                                        <div class="continuous-repartition-container" id="repartition-length"></div>
+                                    </div>
+                                    <div class="tab-2-histogram-container">
+                                        <span class="tab-2-histogram-title">Largeur</span>
+                                        <div class="continuous-repartition-container" id="repartition-width"></div>
+                                    </div>
+                                    <div class="tab-2-histogram-container">
+                                        <span class="tab-2-histogram-title">Capacité</span>
+                                        <div class="continuous-repartition-container" id="repartition-tonnage"></div>
+                                    </div>
+                                    <div id="tab-2-last-histogram-container">
+                                        <span class="tab-2-histogram-title">Tirant d'eau</span>
+                                        <div class="continuous-repartition-container" id="repartition-draught"></div>
+                                    </div>
                                 </div>
                                 <div id="discrete-caracteristics">
-                                    <div class="discrete-repartition-container">
-                                        <svg id="repartition-types" class="discrete-repartition" viewbox="0 0 100 100"></svg>
+                                    <div class="discrete-repartition-container" id="repartition-types"></div>
+                                    <div>
+                                        <div class="tab-2-barchart-legend-item">
+                                            <svg height="15px" width="15px"><rect width="100%" height="100%" fill="#66c2a5"/></svg>
+                                            <span style="color:#66c2a5">Barges</span>
+                                        </div>
+                                        <div class="tab-2-barchart-legend-item">
+                                            <svg height="15px" width="15px"><rect width="100%" height="100%" fill="#fc8d62"/></svg>
+                                            <span style="color:#fc8d62">Excursion</span>
+                                        </div>
+                                        <div class="tab-2-barchart-legend-item">
+                                            <svg height="15px" width="15px"><rect width="100%" height="100%" fill="#8da0cb"/></svg>
+                                            <span style="color:#8da0cb">Fishing</span>
+                                        </div>
+                                        <div class="tab-2-barchart-legend-item">
+                                            <svg height="15px" width="15px"><rect width="100%" height="100%" fill="#e78ac3"/></svg>
+                                            <span style="color:#e78ac3">Merchant</span>
+                                        </div>
+                                        <div class="tab-2-barchart-legend-item">
+                                            <svg height="15px" width="15px"><rect width="100%" height="100%" fill="#a6d854"/></svg>
+                                            <span style="color:#a6d854">Other</span>
+                                        </div>
+                                        <div class="tab-2-barchart-legend-item">
+                                            <svg height="15px" width="15px"><rect width="100%" height="100%" fill="#ffd92f"/></svg>
+                                            <span style="color:#ffd92f">Pleasure Crafts</span>
+                                        </div>
+                                        <div class="tab-2-barchart-legend-item">
+                                            <svg height="15px" width="15px"><rect width="100%" height="100%" fill="#e5c494"/></svg>
+                                            <span style="color:#e5c494">Tanker</span>
+                                        </div>
+                                        <div class="tab-2-barchart-legend-item">
+                                            <svg height="15px" width="15px"><rect width="100%" height="100%" fill="#b3b3b3"/></svg>
+                                            <span style="color:#b3b3b3">Tugs</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
