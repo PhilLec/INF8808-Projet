@@ -106,6 +106,8 @@ export function build(div) {
         .attr("y", function(_,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
         .attr("width", size)
         .attr("height", size)
+        .attr("stroke-width", 0.5)
+        .attr("stroke", "black")
         .style("fill", function(d){ return color(d)})
         .on("mouseover", highlight)
         .on("mouseleave", noHighlight)

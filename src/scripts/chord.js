@@ -5,14 +5,14 @@ import * as preproc from './preprocess.js'
 // https://jyu-theartofml.github.io/posts/circos_plot
 // http://strongriley.github.io/d3/ex/chord.html
 export function build(div, data) {
-  // TODO : Comment trouver la div d'une div encore non chargée ?
+  // TODO : Comment trouver la taille d'une div encore non chargée ?
   const bounds = d3.select('#stacked-area-chart').node().getBoundingClientRect()
 
-  var margin = {top: bounds.width*0.22, right: bounds.width*0.25, bottom: bounds.width*0.25, left: bounds.width*0.25},
+  var margin = {top: bounds.width*0.22, right: bounds.width*0.25, bottom: bounds.width*0.25, left: bounds.width*0.25}, // TODO : Revoir valeur
   width = bounds.width - margin.left - margin.right,
   height = bounds.width - margin.top - margin.bottom;
 
-  const innerRadius = bounds.width / 5
+  const innerRadius = bounds.width / 6.5 // TODO : Revoir valeur
   const outerRadius = innerRadius + 10
 
   // create the svg area
@@ -56,7 +56,7 @@ export function build(div, data) {
 
   // Version sans ticks :
   // add the groups on the outer part of the circle
-  const groups = svg.datum(res)
+  svg.datum(res)
     .append("g")
     .attr("id", "groups")
     .selectAll("g")
@@ -79,6 +79,23 @@ export function build(div, data) {
         unhighlightGroup(links)
       })
 
+  // add the label of groups
+  svg.datum(res)
+    .append("g")
+    .attr("id", "labels")
+    .selectAll("text")
+    .data(function(d) { return d.groups; })
+    .enter()
+    .append("g")
+    .attr("transform", function(d) { return "rotate(" + (d.startAngle * 180 / Math.PI - 90) + ") translate(" + outerRadius + ",0)"; })  // TODO : Revoir valeur
+    .append("text")
+    .attr("x", 8)
+    .attr("dy", ".35em")
+    .attr("transform", function(d) { return d.startAngle > Math.PI ? "rotate(180) translate(-16)" : null; })
+    .style("text-anchor", function(d) { return d.startAngle > Math.PI ? "end" : null; })
+    .style("fill", function(_, i){ return(colors[i]) })
+    .style("font-weight", "bold")
+    .text(function(d) { return preproc.REGION_NAME[d.index] })
 
   /* 
   // Version avec ticks :
@@ -140,7 +157,11 @@ export function build(div, data) {
 }
 
 function highlightGroup(event, links) {
-  links.filter(function(d) { return d.source.index != event.index })
+  links
+    .filter(function(d) {
+      // TODO : Seulement source ? ou source et target ?
+      return d.source.index != event.index // && d.target.index != event.index
+    })
     .attr("opacity", 0.1)
 }
 
