@@ -121,7 +121,7 @@ function buildHeatmap(div) {
       .style("fill", function(d) { return myColor(d.count) })
     
       initLegend(svg,myColor)
-      drawLegend(/*margin.left / 2*/width + margin.right + 20, 0, height, 15, 'url(#gradient)', myColor)
+      drawLegend(width + margin.right + 10, 0, height, 15, 'url(#gradient)', myColor)
   })
 }
 
@@ -192,12 +192,12 @@ function drawLegend(x, y, height, width, fill, colorScale) {
   .domain(colorScale.domain())
   .range([height, 0])
 
-  let axis = d3.axisLeft()
+  let axis = d3.axisRight()
   .ticks(7)
   .scale(scale);
 
   d3.select('.legend.axis')
   .call(axis)
-  .attr('transform', 'translate('+ x + ',' + y + ')')
+  .attr('transform', 'translate('+ (x+15) + ',' + y + ')')
 }
 
