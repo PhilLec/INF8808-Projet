@@ -140,11 +140,7 @@ export function build(div, data) {
 }
 
 function highlightGroup(event, links) {
-  links
-    .filter(function(d) {
-      // TODO : Seulement source ? ou source et tagert ?
-      return d.source.index != event.index // && d.target.index != event.index
-    })
+  links.filter(function(d) { return d.source.index != event.index })
     .attr("opacity", 0.1)
 }
 
