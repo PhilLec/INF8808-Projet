@@ -1,5 +1,5 @@
 import * as preproc from './preprocess.js'
-
+import d3Tip from 'd3-tip'
 // https://d3-graph-gallery.com/chord.html
 // https://observablehq.com/@d3/directed-chord-diagram
 // https://jyu-theartofml.github.io/posts/circos_plot
@@ -33,7 +33,15 @@ export function build(div, data) {
     .padAngle(0.05)     // padding between entities (black arc)
     .sortSubgroups(d3.descending)
     (matrix)
-
+  /*// create a tooltip
+  const tooltip = d3.select("#tab-3-chord-diagram")
+    .append("div")
+    .attr("id","tooltip")
+    .attr("x", 8)
+    .style("position", "absolute")
+    .style("visibility", "hidden")
+    .text("I'm a circle!");
+*/
   // add the links between groups
   const links = svg
   .datum(res)
@@ -45,7 +53,14 @@ export function build(div, data) {
   .append("path")
     .attr("class", "chord")
     .on('mouseenter', function({source, target}, _) {
-      console.log(`${preproc.REGION_NAME[source.index]} --> ${preproc.REGION_NAME[source.subindex]} : ${source.value} navires`)
+      console.log(`${preproc.REGION_NAME[source.index]} --> ${preproc.REGION_NAME[source.subindex]} : ${source.value} navires`);
+      const tooltip = d3.select(`#${preproc.REGION_NAME[source.index]}${preproc.REGION_NAME[source.subindex]}`)
+      return tooltip.style("visibility", "visible");
+    })
+    .on('mouseleave', function({source, target}, _) {
+      console.log(`${preproc.REGION_NAME[source.index]} --> ${preproc.REGION_NAME[source.subindex]} : ${source.value} navires`);
+      const tooltip = d3.select(`#${preproc.REGION_NAME[source.index]}${preproc.REGION_NAME[source.subindex]}`)
+      return tooltip.style("visibility", "hidden");
     })
     .attr("d", d3.ribbon()
       .radius(innerRadius)
@@ -53,6 +68,28 @@ export function build(div, data) {
     .style("fill", function(d){ return(colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
     .style("stroke", "black")
     .attr("opacity", 0.5)
+
+  const tooltips = svg
+    .datum(res)
+    .append("g")
+    .attr("id","tooltip")
+    .selectAll("path")
+    .data(function(d) { return d; })
+    .enter()
+    .append("text")
+      .attr("id",function(d) {
+        console.log(d)
+        return (`${preproc.REGION_NAME[d.source.index]}${preproc.REGION_NAME[d.source.subindex]}`);})
+      .attr("class", "tooltip")
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .text(function(d) {
+        console.log(d)
+        return `${preproc.REGION_NAME[d.source.index]} --> ${preproc.REGION_NAME[d.source.subindex]} : ${d.source.value} navires`
+      })
+      .style("visibility", "hidden")
+
+
 
   // Version sans ticks :
   // add the groups on the outer part of the circle
@@ -169,6 +206,28 @@ function unhighlightGroup(links) {
   links.attr("opacity", 0.5)
 }
 
-function showTooltip() {}
+function getContents (source) {
+  // TODO : Generate tooltip contents
+  return `
+  <div>
+    <div>
+      <label style="font-weight: bold;">Region de départ : </label>
+      <label class="tooltip-value">${preproc.REGION_NAME[source.index]}</label>
+    </div>
+    <div>
+      <label style="font-weight: bold;">Région d'arrivée : </label>
+      <label class="tooltip-value">${preproc.REGION_NAME[source.subindex]}</label>
+    </div>
+    <div>
+      <label style="font-weight: bold;">Nombre de navires : </label>
+      <label class="tooltip-value">${source.value} $ (navires)</label>
+    </div>
+  </div>
+  `
+}
+
+function showTooltip(event, links) {
+  
+}
 
 function unshowTooltip() {}
