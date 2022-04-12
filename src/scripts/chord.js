@@ -54,12 +54,12 @@ export function build(div, data) {
     .attr("class", "chord")
     .on('mouseenter', function({source, target}, _) {
       console.log(`${preproc.REGION_NAME[source.index]} --> ${preproc.REGION_NAME[source.subindex]} : ${source.value} navires`);
-      const tooltip = d3.select(`#${preproc.REGION_NAME[source.index]}${preproc.REGION_NAME[source.subindex]}`)
+      const tooltip = d3.select(`#${preproc.REGION_NAME_ALT[source.index]}${preproc.REGION_NAME_ALT[source.subindex]}`)
       return tooltip.style("visibility", "visible");
     })
     .on('mouseleave', function({source, target}, _) {
       console.log(`${preproc.REGION_NAME[source.index]} --> ${preproc.REGION_NAME[source.subindex]} : ${source.value} navires`);
-      const tooltip = d3.select(`#${preproc.REGION_NAME[source.index]}${preproc.REGION_NAME[source.subindex]}`)
+      const tooltip = d3.select(`#${preproc.REGION_NAME_ALT[source.index]}${preproc.REGION_NAME_ALT[source.subindex]}`)
       return tooltip.style("visibility", "hidden");
     })
     .attr("d", d3.ribbon()
@@ -79,7 +79,7 @@ export function build(div, data) {
     .append("text")
       .attr("id",function(d) {
         console.log(d)
-        return (`${preproc.REGION_NAME[d.source.index]}${preproc.REGION_NAME[d.source.subindex]}`);})
+        return (`${preproc.REGION_NAME_ALT[d.source.index]}${preproc.REGION_NAME_ALT[d.source.subindex]}`);})
       .attr("class", "tooltip")
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
@@ -205,7 +205,7 @@ function highlightGroup(event, links) {
 function unhighlightGroup(links) {
   links.attr("opacity", 0.5)
 }
-
+/*
 function getContents (source) {
   // TODO : Generate tooltip contents
   return `
@@ -231,3 +231,4 @@ function showTooltip(event, links) {
 }
 
 function unshowTooltip() {}
+*/
